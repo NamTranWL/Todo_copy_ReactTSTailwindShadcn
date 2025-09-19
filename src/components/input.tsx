@@ -119,7 +119,6 @@ export default function TodoInput() {
                       value={editingText}
                       onChange={(e) => setEditingText(e.target.value)}
                       onBlur={() => {
-                        dispatch(editTodo({ id: t.id, text: editingText }));
                         setEditingId(null);
                       }}
                       onKeyDown={(e) => {
