@@ -115,6 +115,10 @@ export default function TodoInput() {
                   </label>
                   {editingId === t.id ? (
                     <textarea
+                      onFocus={(e) => {
+                        const len = e.currentTarget.value.length;
+                        e.currentTarget.setSelectionRange(len, len);
+                      }}
                       className="edit mt-2 px-2 py-2 w-full h-10 outline-none text-2xl resize-none overflow-y-auto break-words"
                       value={editingText}
                       onChange={(e) => setEditingText(e.target.value)}
