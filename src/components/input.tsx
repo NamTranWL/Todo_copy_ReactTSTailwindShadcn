@@ -8,6 +8,7 @@ import {
   clearCompleted,
   toggleAll,
   setFilter,
+  selectTodos,
 } from "@/features/todos/todosSlice";
 import {
   selectFiltered,
@@ -22,7 +23,9 @@ export default function TodoInput() {
   const todos = useSelector(selectFiltered);
   const left = useSelector(selectLeftCount);
   const filter = useSelector(selectFilter);
-  const hasTodos = todos.length > 0;
+  const allTodos = useSelector(selectTodos);
+
+  const hasTodos = allTodos.length > 0;
 
   const [draft, setDraft] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -86,15 +89,17 @@ export default function TodoInput() {
             {todos.map((t) => (
               <li
                 key={t.id}
-                className="group flex items-center gap-3 border-b border-zinc-100 py-4 min-h-[35px] transition
+                className="group flex gap-3 border-b border-zinc-100 py-4 min-h-[35px] transition
     has-[:focus-within]:border-red-500
     has-[:focus-within]:ring-2 has-[:focus-within]:ring-red-500/40"
-                onDoubleClick={() => {
-                  setEditingId(t.id);
-                  setEditingText(t.text);
-                }}
               >
-                <div className="flex items-center w-full">
+                <div
+                  className="flex items-center w-full"
+                  onDoubleClick={() => {
+                    setEditingId(t.id);
+                    setEditingText(t.text);
+                  }}
+                >
                   <label className="inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
@@ -136,14 +141,16 @@ export default function TodoInput() {
                       style={{ maxHeight: "80px" }}
                     />
                   ) : (
-                    <label
-                      className={`flex-1 ml-2 text-2xl break-words max-w-full ${
-                        t.completed ? "line-through opacity-60" : ""
-                      }`}
-                      style={{ wordBreak: "break-word" }}
-                    >
-                      {t.text}
-                    </label>
+                    <div className="h-full items-center flex">
+                      <label
+                        className={`flex-1 ml-2 text-2xl break-words max-w-full ${
+                          t.completed ? "line-through opacity-60" : ""
+                        }`}
+                        style={{ wordBreak: "break-word" }}
+                      >
+                        {t.text}
+                      </label>
+                    </div>
                   )}
                 </div>
                 <button
@@ -156,40 +163,41 @@ export default function TodoInput() {
             ))}
           </ul>
         </div>
-
-        <div className="border-t border-zinc-200 bg-white rounded-lg p-[5px]">
-          <ul className="grid grid-flow-col place-items-center min-h-[35px] ">
-            <span className="todo-count text-xl mr-4">
-              <strong className="text-xl font-normal">{left}</strong> items
-              left!
-            </span>
-            <div className="grid grid-flow-col place-items-center gap-[10px]">
-              {(["all", "active", "completed"] as const).map((f) => (
-                <li key={f}>
-                  <a
-                    href="#/"
-                    className={`px-[10px] py-[5px] rounded-sm border ${
-                      filter === f
-                        ? "border-[#b83f45] border-1 ring-3 ring-red-300 shadow-red-200"
-                        : "border-transparent hover:border-red-500"
-                    }`}
-                    onClick={() => dispatch(setFilter(f))}
-                  >
-                    {f[0].toUpperCase() + f.slice(1)}
-                  </a>
-                </li>
-              ))}
-            </div>
-            <li>
-              <button
-                className="ml-4 hover:underline"
-                onClick={() => dispatch(clearCompleted())}
-              >
-                Clear completed
-              </button>
-            </li>
-          </ul>
-        </div>
+        {hasTodos && (
+          <div className="border-t border-zinc-200 bg-white p-[5px]">
+            <ul className="grid grid-flow-col place-items-center min-h-[35px] ">
+              <span className="todo-count text-xl mr-4">
+                <strong className="text-xl font-normal">{left}</strong>{" "}
+                {left === 1 ? "item" : "items"} left!
+              </span>
+              <div className="grid grid-flow-col place-items-center gap-[10px]">
+                {(["all", "active", "completed"] as const).map((f) => (
+                  <li key={f}>
+                    <a
+                      href="#/"
+                      className={`px-[10px] py-[5px] rounded-sm border ${
+                        filter === f
+                          ? "border-[#b83f45] border-1 ring-3 ring-red-300 shadow-red-200"
+                          : "border-transparent hover:border-red-500"
+                      }`}
+                      onClick={() => dispatch(setFilter(f))}
+                    >
+                      {f[0].toUpperCase() + f.slice(1)}
+                    </a>
+                  </li>
+                ))}
+              </div>
+              <li>
+                <button
+                  className="ml-4 hover:underline"
+                  onClick={() => dispatch(clearCompleted())}
+                >
+                  Clear completed
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
       <div className="mt-[60px] space-y-[5px]">
         <p className="text-center text-xs mt-4 mb-8">
