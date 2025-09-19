@@ -16,7 +16,7 @@ import {
   selectFilter,
 } from "@/features/todos/todosSlice";
 import { useState } from "react";
-import { Check, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 export default function TodoInput() {
   const dispatch = useDispatch();
