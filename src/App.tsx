@@ -1,4 +1,4 @@
-import InputTodo from "./components/input";
+import InputTodo from "./components/mainLayout";
 export default function App() {
   return (
     <div className="min-h-screen bg-zinc-100 text-zinc-900">
