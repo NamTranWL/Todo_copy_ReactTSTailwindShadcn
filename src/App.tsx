@@ -1,5 +1,4 @@
 import InputTodo from "./components/input";
-import { Menu, ListChecks, Settings } from "lucide-react";
 export default function App() {
   return (
     <div className="min-h-screen bg-zinc-100 text-zinc-900">
