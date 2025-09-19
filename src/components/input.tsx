@@ -42,8 +42,8 @@ export default function TodoInput() {
       <div className="bg-white border border-zinc-200 shadow-lg w-full mt-[20px] ">
         <div
           className="flex px-6 py-4 border-b border-zinc-200 items-center min-h-[35px] transition
-        has-[input:focus]:border-red-500
-        has-[input:focus]:ring-2 has-[input:focus]:ring-red-500/40"
+        has-[textarea:focus]:border-red-500  
+        has-[textarea:focus]:ring-2 has-[textarea:focus]:ring-red-500/40"
         >
           <div
             className="transition
@@ -122,6 +122,9 @@ export default function TodoInput() {
                         setEditingId(null);
                       }}
                       onKeyDown={(e) => {
+                        if (editingText.trim() === "") {
+                          return;
+                        }
                         if (e.key === "Enter" && !e.shiftKey) {
                           e.preventDefault();
                           dispatch(editTodo({ id: t.id, text: editingText }));
@@ -174,17 +177,19 @@ export default function TodoInput() {
               <div className="grid grid-flow-col place-items-center gap-[10px]">
                 {(["all", "active", "completed"] as const).map((f) => (
                   <li key={f}>
-                    <a
-                      href="#/"
-                      className={`px-[10px] py-[5px] rounded-sm border ${
-                        filter === f
-                          ? "border-[#b83f45] border-1 ring-3 ring-red-300 shadow-red-200"
-                          : "border-transparent hover:border-red-500"
-                      }`}
-                      onClick={() => dispatch(setFilter(f))}
-                    >
-                      {f[0].toUpperCase() + f.slice(1)}
-                    </a>
+                    <div className="py-[5px] has-[:focus]:ring-3 has-[:focus]:ring-red-300 rounded-sm hover:border-[#b83f45] hover:border-1">
+                      <a
+                        href="#/"
+                        className={`px-[10px] py-[5px] rounded-sm border ${
+                          filter === f
+                            ? "border-[#b83f45] border-2"
+                            : "border-transparent "
+                        }`}
+                        onClick={() => dispatch(setFilter(f))}
+                      >
+                        {f[0].toUpperCase() + f.slice(1)}
+                      </a>
+                    </div>
                   </li>
                 ))}
               </div>
