@@ -93,13 +93,7 @@ export default function TodoInput() {
     has-[:focus-within]:border-red-500
     has-[:focus-within]:ring-2 has-[:focus-within]:ring-red-500/40"
               >
-                <div
-                  className="flex items-center w-full"
-                  onDoubleClick={() => {
-                    setEditingId(t.id);
-                    setEditingText(t.text);
-                  }}
-                >
+                <div className="flex items-center w-full">
                   <label className="inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
@@ -141,7 +135,13 @@ export default function TodoInput() {
                       style={{ maxHeight: "80px" }}
                     />
                   ) : (
-                    <div className="h-full items-center flex">
+                    <div
+                      onDoubleClick={() => {
+                        setEditingId(t.id);
+                        setEditingText(t.text);
+                      }}
+                      className="h-full w-full items-center flex"
+                    >
                       <label
                         className={`flex-1 ml-2 text-2xl break-words max-w-full ${
                           t.completed ? "line-through opacity-60" : ""
@@ -153,12 +153,14 @@ export default function TodoInput() {
                     </div>
                   )}
                 </div>
-                <button
-                  className="h-[10px] w-[10px] p  mr-[10px] mb-[20px] destroy ml-auto text-zinc-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={() => dispatch(removeTodo(t.id))}
-                >
-                  ×
-                </button>
+                <div className="flex items-center w-[50px]">
+                  <button
+                    className="text-3xl mr-[10px] mb-[10px] destroy ml-auto text-zinc-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={() => dispatch(removeTodo(t.id))}
+                  >
+                    ×
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
