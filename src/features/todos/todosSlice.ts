@@ -1,7 +1,5 @@
-// features/todos/todosSlice.ts
 import { createSlice, nanoid, createSelector } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-
 import type { TodosState, Filter } from "../types";
 
 const initialState: TodosState = { items: [], filter: "all" };

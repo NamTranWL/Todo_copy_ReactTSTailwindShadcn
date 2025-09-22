@@ -1,5 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import todosReducer from "./features/todos/todosSlice";
+import todosReducer from "./features/todos/TodosSlice";
 
 const PERSIST_KEY = "todos:v1";
 
